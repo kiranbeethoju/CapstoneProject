@@ -50,12 +50,37 @@ python3 compact_dashboard.py
 
 The dashboard will be available at: http://localhost:5003
 
+### 5. Additional Data Processing Scripts
+
+#### Data Cleaning Script
+```bash
+python3 "Data-Cleaning 2025-07-21 19_10_49.py"
+```
+
+This script provides advanced data cleaning and geospatial processing:
+- GPS outlier removal for NYC area
+- Coordinate system normalization
+- Timezone handling and UTC conversion
+- Automatic geometry creation from lat/lon columns
+
+#### Parquet-to-CSV Conversion Script
+**Note**: This script is designed for Databricks environment and requires Azure Data Lake Storage configuration.
+
+```python
+# Configure in Databricks notebook:
+storage_account_name = "your_storage_account_name"
+container_name = "your_container_name"
+account_key = "your_account_key"  # Use secure configuration
+```
+
 ## Project Structure
 
 ```
 ├── compact_dashboard.py          # Main dashboard application
 ├── transportation_etl.py         # ETL pipeline for data processing
 ├── check_table_structure.py      # Utility to inspect database schema
+├── Parquet-to-csv.py             # Databricks data format conversion script
+├── Data-Cleaning 2025-07-21 19_10_49.py  # Geospatial data cleaning utility
 ├── config/
 │   ├── azure_database.py         # Azure SQL Database configuration
 │   └── database.py               # Database utilities
