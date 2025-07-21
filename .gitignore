@@ -1,0 +1,94 @@
+# Environment variables and credentials
+.env
+environment.template
+*.key
+*.pem
+*.p12
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+cache/
+*.cache
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data files (if they contain sensitive information)
+data/raw/
+data/original_sources/
+data/processed/*.parquet
+data/analytics/*.json
+*.csv
+*.xlsx
+*.xls
+
+# Azure credentials (if any)
+azure_credentials.json
+azure_config.json
+
+# Docker
+.dockerignore
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log* 

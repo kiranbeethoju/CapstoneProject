@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:14-3.2
+    container_name: transportation_db
+    environment:
+      POSTGRES_DB: transportation_analytics
+      POSTGRES_USER: transport_user
+      POSTGRES_PASSWORD: transport_pass
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d/
+    networks:
+      - transport_network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: transportation_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - transport_network
+    restart: unless-stopped
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.jupyter
+    container_name: transportation_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work/notebooks
+      - ./data:/home/jovyan/work/data
+      - ./src:/home/jovyan/work/src
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=transportation_analytics
+      - POSTGRES_USER=transport_user
+      - POSTGRES_PASSWORD=transport_pass
+    networks:
+      - transport_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.streamlit
+    container_name: transportation_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=transportation_analytics
+      - POSTGRES_USER=transport_user
+      - POSTGRES_PASSWORD=transport_pass
+    networks:
+      - transport_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  transport_network:
+    driver: bridge 

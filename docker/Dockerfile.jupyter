@@ -1,0 +1,46 @@
+FROM jupyter/scipy-notebook:latest
+
+USER root
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    gdal-bin \
+    libgdal-dev \
+    libspatialindex-dev \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+USER ${NB_UID}
+
+# Copy requirements
+COPY requirements.txt /tmp/
+
+# Install Python packages
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Install additional geospatial packages
+RUN pip install --no-cache-dir \
+    geoalchemy2 \
+    pyproj \
+    rtree \
+    contextily \
+    osmnx \
+    plotly \
+    dash \
+    streamlit-folium
+
+# Create work directories
+RUN mkdir -p /home/jovyan/work/notebooks \
+    && mkdir -p /home/jovyan/work/data \
+    && mkdir -p /home/jovyan/work/src
+
+# Set working directory
+WORKDIR /home/jovyan/work
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Start Jupyter
+CMD ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.password=''"] 
