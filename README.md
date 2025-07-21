@@ -149,6 +149,15 @@ python3 compact_dashboard.py
 # Dashboard will be available at: http://localhost:5003
 ```
 
+### Additional Scripts
+```bash
+# Run data cleaning and geospatial processing
+python3 "Data-Cleaning 2025-07-21 19_10_49.py"
+
+# Note: Parquet-to-csv.py is designed for Databricks environment
+# Run in Databricks notebook with proper Azure Data Lake Storage configuration
+```
+
 ## Dashboard Features
 
 ### Data Summary
@@ -169,6 +178,38 @@ python3 compact_dashboard.py
 - **Weekday vs Weekend**: Comparative analysis (shows both weekday and weekend data)
 - **Zone Performance**: Zone-based efficiency metrics
 - **Congestion Heatmap**: Geographic congestion visualization
+
+## Additional Data Processing Scripts
+
+### Parquet-to-CSV Conversion Script
+**File**: `Parquet-to-csv.py`
+
+A Databricks notebook script for converting data between different formats:
+
+- **Purpose**: Converts Spark DataFrames to CSV and Parquet formats
+- **Features**:
+  - Azure Data Lake Storage Gen2 integration
+  - Account key authentication for secure access
+  - Single-file output with coalesce(1) for easy handling
+  - Support for both CSV and Parquet output formats
+- **Use Case**: Data format standardization for downstream processing
+- **Output**: Files stored in Azure Data Lake Storage container
+
+### Data Cleaning and Geospatial Processing Script
+**File**: `Data-Cleaning 2025-07-21 19_10_49.py`
+
+Advanced data cleaning and geospatial processing utility:
+
+- **Purpose**: Comprehensive data cleaning with geographic validation
+- **Features**:
+  - **GPS Outlier Removal**: Constrains points to plausible NYC bounds
+  - **Coordinate System Normalization**: Converts to WGS84 (EPSG:4326)
+  - **Timezone Handling**: Converts timestamps to UTC with NYC localization
+  - **Geometry Creation**: Automatically creates Point geometries from lat/lon columns
+  - **Data Merging**: Intelligent merging based on common time/location keys
+- **Geographic Bounds**: NYC area (40.4774°N to 40.9176°N, -74.2591°W to -73.7004°W)
+- **Input**: Multiple pandas/GeoPandas DataFrames
+- **Output**: Cleaned and merged GeoDataFrame with standardized coordinates and timestamps
 
 ## Advanced Features
 

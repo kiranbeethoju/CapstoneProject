@@ -83,6 +83,9 @@ data/analytics/*.json
 # Azure credentials (if any)
 azure_credentials.json
 azure_config.json
+*.key
+*_key.txt
+*_credentials.py
 
 # Docker
 .dockerignore
